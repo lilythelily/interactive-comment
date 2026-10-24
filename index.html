@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="style.css">
+  
+  <title>Frontend Mentor | Interactive comments section</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution { font-size: 0.6875rem; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+<div class="overlay hide"></div>
+  <!-- Pull dynamic content from the data.json file -->
+
+  <main>
+    <section class="section-comment">
+     
+      <div class="card1">
+</div>
+
+     <!-- ---card ends--- -->
+
+     <!-- --- reply card --- -->
+     
+
+<!-- --- reply ends --- -->
+
+<div class="card2">
+
+</div>
+
+     <!-- ---card ends--- -->
+
+
+     <!-- --- threaded cards --- -->
+      <div class="threaded-comment">
+        <div class="threaded__line-wrapper"><div class="line"></div></div>
+
+        <div class="threaded-card-wrapper">
+
+ 
+           <div class="threaded__card card3">
+
+        </div>
+
+      <!-- --- thread reply --- -->
+
+
+
+<!-- --- thread self --- -->
+
+ <div class="threaded__card threaded__card-self card4">
+        </div>
+
+
+      </div></div>
+
+      <!-- --- input field --- -->
+
+      <div class="input-comment">
+        <div class="input__avatar"></div>
+        <input type="text" class="comment-field" id="add-comment" placeholder="Add a comment...">
+        <button class="send-btn" id="commenttn">Send</button>
+      </div>
+
+  
+      
+    </section>
+    <!-- --- delete modal --- -->
+    <div class="delete-modal hide">
+      <p class="delete-title">Delete comment</p>
+      <p class="delete-msg">Are you sure you want to delete this comment? This will remove the comment and can't be undone.</p>
+      <div class="modal-btns">
+  <button class="send-btn cancel-btn">No, cancel</button>
+  <button class="send-btn delete-btn">Yes, delete</button></div>
+    </div>
+  </main>
+  
+  <footer class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
+    Coded by KaoriA.
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
