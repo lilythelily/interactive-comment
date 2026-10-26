@@ -27,8 +27,8 @@ function renderComments(data){
 
 const card1 = document.querySelector('.card1');
 const card2 = document.querySelector('.card2');
-const card3 = document.querySelector('.card3');
-const card4 = document.querySelector('.card4');
+const card3 = document.querySelector('.thread-container1');
+const card4 = document.querySelector('.thread-container2');
 const comments = data.comments;
 const current = data.currentUser;
 
@@ -75,6 +75,7 @@ card2.innerHTML = `
 `;
 
 card3.innerHTML = `
+<div class="threaded__card card3">
  <div class="comment__controller">
           <div class="plus"></div><p class="controller-number">${comments[1].replies[0].score}</p><div class="minus"></div>
         </div>
@@ -96,10 +97,11 @@ card3.innerHTML = `
 
         <div class="comment__text"><span class="mention-span">@${comments[1].user.username}</span>
           ${comments[1].replies[0].content}
-        </div>
+        </div></div>
 `
 
 card4.innerHTML = `
+<div class="threaded__card threaded__card-self card4">
       <div class="comment__controller comment__controller-self">
           <div class="plus"></div><p class="controller-number">${comments[1].replies[1].score}</p><div class="minus"></div>
         </div>
@@ -112,12 +114,12 @@ card4.innerHTML = `
         <p class="comment__time">${comments[1].replies[1].createdAt}</p></div>
 
         <div class="action-btns">
-        <div class="comment__icon-reply trash-btn">
+        <div class="trash-btn2">
           <div class="comment__arrow comment__trash"></div>
           <p class="comment__reply comment__delete">Delete</p>
         </div>
         
-        <div class="comment__icon-reply edit-btn">
+        <div class="edit-btn2">
           <div class="comment__arrow comment__pen"></div>
 <p class="comment__reply">Edit</p>
         </div></div>
@@ -126,51 +128,76 @@ card4.innerHTML = `
           ${comments[1].replies[1].content}
         </div>
 
-        <button class="update-btn hide">Update</button>
+        <button class="update-btn hide">Update</button></div>
 `
 
-  // === reply ===
+// --- self card update ---
 
-    const replyBtn1 = document.querySelector('.reply-btn1');
-    const replyBtn2 = document.querySelector('.reply-btn2');
-    const deleteBtn = document.querySelector('.trash-btn');
-    const editBtn = document.querySelector('.edit-btn');
-    const updateBtn = document.querySelector('.update-btn');
-    const commentText = card4.querySelector('.comment__text');
-    const newReply = document.createElement('div');
+const deleteModal = document.querySelector('.delete-modal');
+const overlay = document.querySelector('.overlay');
+const yesDelete = document.querySelector('.yes-delete');
+const noCancel = document.querySelector('.no-cancel');
+let isDeleted = false;
+let isEdited = false;
 
-    // --- new reply ---
+card4.addEventListener('click', (e)=>{
+   const deleteBtn = card4.querySelector(".trash-btn2");
+   const editBtn = card4.querySelector('.edit-btn2');
+   const updateBtn = card4.querySelector('.update-btn');
+   deleteBtn.addEventListener('click', ()=>{
+    show(deleteModal);
+       show(overlay);
+   })
+   yesDelete.addEventListener('click',()=>{
+    hide(card4);
+           isDeleted=true;
+           hide(updateBtn);
+           hide(overlay);
+           hide(deleteModal);
+})
 
-    newReply.innerHTML = `
-    <div class="reply__card reply01">
-        <div class="input__avatar reply__avatar"></div>
-        <input type="text" class="comment-field reply-comment" id="reply-comment1">
-        <button class="send-btn reply-btn" id="reply1-btn">Reply</button>
-</div>
+noCancel.addEventListener('click', ()=>{
+          hide(overlay);
+           hide(deleteModal);
+})
+editBtn.addEventListener('click', ()=>{
+    show(updateBtn);
+    const textField = card4.querySelector('.comment__text');
+const currentText = textField.innerText.trim();
+textField.innerHTML = `
+<textarea class="edit-textarea">${currentText}</textarea>
+`
+        isEdited = true;
+
+updateBtn.addEventListener('click', (e)=>{
+
+if(isEdited){
+    const textArea = card4.querySelector('.edit-textarea');
+    const updatedText = textArea.value;
+    textField.innerHTML = `
+                ${updatedText}
     `
+    isEdited = false;
+    hide(updateBtn);
+   
+}})})})
 
-    function cardToggle(item){
-        item.classList.remove('hide');
-        item.classList.add('grid');
-    }
+// --- add new comment ---
 
-    let isDeleted = false;
-    let isEdited = false;
+const inputComment = document.querySelector('.input-comment');
+const field = document.querySelector("#new-comment");
 
-    replyBtn1.addEventListener('click',()=>{
-        card1.appendChild(newReply);
-        })
- 
-newReply.addEventListener('click', (e)=>{
-    if(e.target && e.target.id === "reply1-btn"){
-        const inputField = newReply.querySelector('#reply-comment1');
-        const replyText = inputField.value.trim();
-        if(replyText === '') return;
+inputComment.addEventListener('click', (e)=>{
+    if (e.target && (e.target.classList.contains('send-btn') || e.target.id === 'commentBtn')) {
 
-        const submittedReplyCard = document.createElement('div');
-        submittedReplyCard.classList.add('threaded__card', "threaded__card-self");
-        submittedReplyCard.innerHTML = `
-        <div class="comment__controller comment__controller-self">
+    const newComment = field.value.trim();
+    if(newComment === '') return;
+
+    const submittedNewComment = document.createElement('div');
+    submittedNewComment.classList.add('comment__card');
+
+    submittedNewComment.innerHTML = `
+    <div class="comment__controller">
                 <div class="plus"></div>
                 <p class="controller-number">0</p>
                 <div class="minus"></div>
@@ -184,265 +211,215 @@ newReply.addEventListener('click', (e)=>{
             </div>
 
             <div class="action-btns">
-                <div class="comment__icon-reply trash-btn" id="delete-btn0">
+                <div class="comment__icon-reply trash-btn" id="delete-main">
                     <div class="comment__arrow comment__trash"></div>
-                    <p class="comment__reply comment__delete" >Delete</p>
+                    <p class="comment__reply comment__delete">Delete</p>
                 </div>
-                <div class="comment__icon-reply edit-btn" id="edit-btn0">
+                <div class="comment__icon-reply edit-btn" id="edit-main">
                     <div class="comment__arrow comment__pen"></div>
                     <p class="comment__reply">Edit</p>
                 </div>
             </div>
 
             <div class="comment__text">
-            <span class="mention-span">@${comments[0].user.username}</span>
+                ${newComment}
+            </div>
+
+            <button class="update-btn hide" id="update-btn4">Update</button>
+    `;
+
+    inputComment.insertAdjacentElement('beforebegin', submittedNewComment);
+    field.value="";
+    
+    const deleteBtn = submittedNewComment.querySelector("#delete-main");
+   const editBtn = submittedNewComment.querySelector('#edit-main');
+   const updateBtn =submittedNewComment.querySelector('.update-btn');
+   deleteBtn.addEventListener('click', ()=>{
+    show(deleteModal);
+       show(overlay);
+   })
+   yesDelete.addEventListener('click',()=>{
+    hide(submittedNewComment);
+           isDeleted=true;
+           hide(updateBtn);
+           hide(overlay);
+           hide(deleteModal);
+})
+
+noCancel.addEventListener('click', ()=>{
+          hide(overlay);
+           hide(deleteModal);
+})
+editBtn.addEventListener('click', ()=>{
+    show(updateBtn);
+    const textField = submittedNewComment.querySelector('.comment__text');
+const currentText = textField.innerText.trim();
+textField.innerHTML = `
+<textarea class="edit-textarea">${currentText}</textarea>
+`
+        isEdited = true;
+
+updateBtn.addEventListener('click', (e)=>{
+
+if(isEdited){
+    const textArea = submittedNewComment.querySelector('.edit-textarea');
+    const updatedText = textArea.value;
+    textField.innerHTML = `
+                ${updatedText}
+    `
+    isEdited = false;
+    hide(updateBtn);
+}})
+})} 
+})
+
+
+// === inline replies ===
+
+const replyBtns = document.querySelectorAll('.comment__icon-reply');
+const newReply = document.createElement('div');
+
+
+function show(item){
+    item.classList.remove('hide');
+}
+
+function hide(item){
+    item.classList.add('hide');
+}
+
+newReply.innerHTML = `
+<div class="reply__card">
+        <div class="input__avatar reply__avatar"></div>
+        <input type="text" class="comment-field reply-comment" id="reply-comment">
+        <button class="send-btn reply-btn" id="reply1-btn">Reply</button>
+</div>
+`
+
+replyBtns.forEach((btn)=>{
+            btn.addEventListener('click',(e)=>{
+               const cardParent = e.target.closest('.comment__card, .threaded__card'); 
+
+               const userNameEl = cardParent.querySelector('.comment__name');
+               const targetUserName = userNameEl ? userNameEl.textContent.trim():comments[0].user.username;
+
+               cardParent.insertAdjacentElement('afterend', newReply);
+               newReply.dataset.replyingTo = targetUserName;
+            })
+
+
+newReply.addEventListener('click',(e)=>{
+if(e.target){
+ const inputField = newReply.querySelector('.reply-comment');
+               const replyText = inputField.value.trim();
+               if(replyText === '') return;
+
+const replyingToUser = newReply.dataset.replyingTo || comments[0].user.username;
+    const submittedReply=document.createElement('div');
+
+    submittedReply.classList.add('threaded__card', "threaded__card-self");
+submittedReply.innerHTML = `
+<div class="comment__controller comment__controller-self">
+                <div class="plus"></div>
+                <p class="controller-number">0</p>
+                <div class="minus"></div>
+            </div>
+
+            <div class="pic-name">
+                <div class="comment__pic" style="background-image: url('${current.image.webp}')"></div>
+                <p class="comment__name">${current.username}</p>
+                <div class="self">you</div>
+                <p class="comment__time">Just now</p>
+            </div>
+
+            <div class="action-btns">
+                <div class="comment__icon-reply trash-btn"">
+                    <div class="comment__arrow comment__trash"></div>
+                    <p class="comment__reply comment__delete" >Delete</p>
+                </div>
+                <div class="comment__icon-reply edit-btn"">
+                    <div class="comment__arrow comment__pen"></div>
+                    <p class="comment__reply">Edit</p>
+                </div>
+            </div>
+
+            <div class="comment__text" id="comment__text0">
+            <span class="mention-span">@${replyingToUser}</span>
                 ${replyText}
             </div>
 
              <button class="update-btn hide" id="update-btn0">Update</button>
-        `;
+`;
 
-        newReply.remove();
-        card1.appendChild(submittedReplyCard);
-            
-        const updateBtn0 = document.querySelector('#update-btn0');
-const deleteBtn0 = document.querySelector('#delete-btn0');
-const editBtn0 = document.querySelector('#edit-btn0');
+
+newReply.insertAdjacentElement('afterend', submittedReply);
+newReply.remove();
+inputField.value='';
+
+
+// === update reply ===
 
 let isDeleted = false;
 let isEdited = false;
-    deleteBtn0.addEventListener('click',()=>{
-        cardToggle(updateBtn0);
-        isDeleted = true;
-    })
-editBtn0.addEventListener('click',()=>{
-    cardToggle(updateBtn0);
-    isEdited = true;
-})
-
-    updateBtn0.addEventListener('click', ()=>{
-if(isDeleted){
-    submittedReplyCard.classList.add('hide');
-}
-    })
-
-    }
-})
 
 
-// --- thread reply ---
- const newThreadReply = document.createElement('div');
-
- newThreadReply.innerHTML = `
- <div class="reply__card thread-reply__card">
-
-        <div class="input__avatar reply__avatar"></div>
-        <input type="text" class="comment-field reply-comment" id="reply-comment2">
-        <button class="send-btn reply-btn" id="reply3-btn">Reply</button>
-
-</div>
- `
+submittedReply.addEventListener('click', (e)=>{
+    const updateBtn = submittedReply.querySelector('.update-btn');
+    const deleteBtn = submittedReply.querySelector('.trash-btn');
+    const editBtn = submittedReply.querySelector('.edit-btn');
 
 
-    replyBtn2.addEventListener('click',()=>{
-        card3.insertAdjacentElement('afterend', newThreadReply);
-    })
-
-
-    newThreadReply.addEventListener('click', (e)=>{
-    if(e.target && e.target.id === "reply3-btn"){
-        const inputField2 = newThreadReply.querySelector('#reply-comment2');
-        const replyText2 = inputField2.value.trim();
-        if(replyText2 === '') return;
-
-        const submittedReplyCard2 = document.createElement('div');
-        submittedReplyCard2.classList.add('threaded__card', "threaded__card-self");
-        submittedReplyCard2.innerHTML = `
-        <div class="comment__controller comment__controller-self">
-                <div class="plus"></div>
-                <p class="controller-number">0</p>
-                <div class="minus"></div>
-            </div>
-
-            <div class="pic-name">
-                <div class="comment__pic" style="background-image: url('${current.image.webp}')"></div>
-                <p class="comment__name">${current.username}</p>
-                <div class="self">you</div>
-                <p class="comment__time">Just now</p>
-            </div>
-
-            <div class="action-btns">
-                <div class="comment__icon-reply trash-btn" id="delete-btn1">
-                    <div class="comment__arrow comment__trash"></div>
-                    <p class="comment__reply comment__delete" >Delete</p>
-                </div>
-                <div class="comment__icon-reply edit-btn" id="edit-btn1">
-                    <div class="comment__arrow comment__pen"></div>
-                    <p class="comment__reply">Edit</p>
-                </div>
-            </div>
-
-            <div class="comment__text">
-               <span class="mention-span">@${comments[1].replies[0].user.username}</span>
-                ${replyText2}
-            </div>
-
-             <button class="update-btn hide" id="update-btn1">Update</button>
-        `;
-
-        newThreadReply.remove();
-         card3.insertAdjacentElement('afterend',submittedReplyCard2);
-
-        const updateBtn1 = document.querySelector('#update-btn1');
-    const deleteBtn1 = document.querySelector('#delete-btn1');
-    const editBtn1 = document.querySelector('#edit-btn1');
-
-    let isDeleted = false;
-let isEdited = false;
-
-    deleteBtn1.addEventListener('click',()=>{
-        cardToggle(updateBtn1);
-        isDeleted = true;
-    })
-editBtn1.addEventListener('click',()=>{
-    cardToggle(updateBtn1);
-    isEdited = true;
-})
-
-    updateBtn1.addEventListener('click', ()=>{
-if(isDeleted){
-    submittedReplyCard2.classList.add('hide');
-}
-    })
-}
-
-    });
-
-
-    deleteBtn.addEventListener('click',()=>{
-        cardToggle(updateBtn);
-        isDeleted = true;
-    })
-
-    // -- make it an editable textarea ---
-
-    editBtn.addEventListener('click', ()=>{
-        cardToggle(updateBtn);
-
- if(!isEdited){
-    const currentText = commentText.innerText.trim();
-    commentText.innerHTML = `
-    <textarea class="edit-textarea">${currentText}</textarea>
-    `;
-
-    isEdited= true;
- }       
-
-    });
-
-    // --- update content ---
-
-
-    // --- second reply ---
-
-    updateBtn.addEventListener('click', ()=>{
-        if(isDeleted){
-            card4.classList.add('hide');
-        }
-        if(isEdited){
-            const textarea = commentText.querySelector('.edit-textarea');
-            const updatedText = textarea.value;
-            commentText.innerHTML = `
-          ${updatedText}
-            `;
-
-            updateBtn.classList.add('hide');
-            updateBtn.classList.remove('grid');
-            isEdited = false;
-        }
-    })
-
-
-// --- add new comment ---
-
-const inputContainer = document.querySelector('.input-comment');
-
-inputContainer.addEventListener('click', (e)=>{
-    if(e.target && (e.target.classList.contains('send-btn') || e.target.id === 'commentBtn')){
-
-const inputField3 = document.querySelector('#add-comment');
-        const newText = inputField3.value.trim();
-        
-
-        if (newText === '') return;
-
-        const submittedNewComment = document.createElement('div');
-        submittedNewComment.classList.add('comment__card'); 
-        
-        submittedNewComment.innerHTML = `
-            <div class="comment__controller">
-                <div class="plus"></div>
-                <p class="controller-number">0</p>
-                <div class="minus"></div>
-            </div>
-
-            <div class="pic-name">
-                <div class="comment__pic" style="background-image: url('${current.image.webp}')"></div>
-                <p class="comment__name">${current.username}</p>
-                <div class="self">you</div>
-                <p class="comment__time">Just now</p>
-            </div>
-
-            <div class="action-btns">
-                <div class="comment__icon-reply trash-btn" id="delete-btn4">
-                    <div class="comment__arrow comment__trash"></div>
-                    <p class="comment__reply comment__delete">Delete</p>
-                </div>
-                <div class="comment__icon-reply edit-btn" id="edit-btn4">
-                    <div class="comment__arrow comment__pen"></div>
-                    <p class="comment__reply">Edit</p>
-                </div>
-            </div>
-
-            <div class="comment__text">
-                ${newText}
-            </div>
-
-            <button class="update-btn hide" id="update-btn4">Update</button>
-        `;
-
-        inputContainer.insertAdjacentElement('beforebegin', submittedNewComment);
-
-        inputField3.value = '';
-
-        vote();
-
-        const updateBtn4 = document.querySelector('#update-btn4');
-    const deleteBtn4 = document.querySelector('#delete-btn4');
-    const editBtn4 = document.querySelector('#edit-btn4');
-
-    let isDeleted = false;
-let isEdited = false;
-
-    deleteBtn4.addEventListener('click',()=>{
-        cardToggle(updateBtn4);
-        isDeleted = true;
-    })
-editBtn4.addEventListener('click',()=>{
-    cardToggle(updateBtn4);
-    isEdited = true;
-})
-
-
-    updateBtn4.addEventListener('click', ()=>{
-if(isDeleted){
-    submittedNewComment.classList.add('hide');
-}
- updateBtn4.classList.add('hide');
-            updateBtn.classList.remove('grid');
-    })
-    }
+deleteBtn.addEventListener('click', (e)=>{
+       show(deleteModal);
+       show(overlay);
 });
+
+
+
+yesDelete.addEventListener('click',()=>{
+    hide(submittedReply);
+    inputField.value='';
+           isDeleted=true;
+           hide(updateBtn);
+           hide(overlay);
+           hide(deleteModal);
+})
+
+noCancel.addEventListener('click', ()=>{
+          hide(overlay);
+           hide(deleteModal);
+})
+    
+editBtn.addEventListener('click', (e)=>{
+    show(updateBtn);
+const textField = submittedReply.querySelector('.comment__text');
+const currentText = textField.innerText.trim();
+textField.innerHTML = `
+<textarea class="edit-textarea">${currentText}</textarea>
+`
+        isEdited = true;
+        
+updateBtn.addEventListener('click', (e)=>{
+
+if(isEdited){
+
+    const textArea = submittedReply.querySelector('.edit-textarea');
+    const updatedText = textArea.value;
+    textField.innerHTML = `
+                ${updatedText}
+    `
+    isEdited = false;
+    hide(updateBtn);
+}
+
+
+});
+})});
+
+}});    })
+
+
+
 
 // --- vote ---
 

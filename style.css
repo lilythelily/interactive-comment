@@ -49,23 +49,23 @@ main{
 }
 
 .section-comment{
-    width: clamp(600px, 70vw, 800px);
+    width: clamp(37.5rem, 70vw, 50rem);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 1.5rem;
 }
 
 .comment__card{
     background-color: var(--white);
     border-radius: var(--radius10);
     box-shadow: var(--shadow);
-    padding: 24px;
+    padding: 1.5rem;
     display: grid;
     grid-template-columns: 5% auto 15%;
     grid-template-rows: 1fr auto;
-    gap: 24px;
+    gap: 1.5rem;
     width: 100%;
 }
 
@@ -74,8 +74,8 @@ width: 100%;
 }
 
 .plus{
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     background: url('./images/icon-plus.svg');
     background-repeat: no-repeat;
     background-position: center;
@@ -90,8 +90,8 @@ width: 100%;
 
 
 .minus{
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     background: url('./images/icon-minus.svg');
     background-repeat: no-repeat;
     background-position: center;
@@ -114,13 +114,13 @@ font-weight: var(--fw500);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    padding: 4px 8px;
+    gap: 1rem;
+    padding: 0.25rem 0.5rem;
     background: var(--grey-100);
     border-radius:var(--radius10);
     box-shadow: var(--shadow);
-    width: 32px;
-    height: 120px;
+    width: 2rem;
+    height: 7.5rem;
     grid-row-start:1;
     grid-row-end:3;
 }
@@ -131,8 +131,8 @@ font-weight: var(--fw500);
 }
 
 .comment__pic{
-width:32px;
-height: 32px;
+width:2rem;
+height: 2rem;
 border-radius: 100%;
 background: url('./images/avatars/image-juliusomo.webp');
 background-repeat: no-repeat;
@@ -146,14 +146,21 @@ background-size: contain;
 }
 
 .comment__arrow{
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     background: url('./images/icon-reply.svg');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .comment__trash{
+background: url('./images/icon-delete.svg');
+background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.comment__{
     background: url('./images/icon-delete.svg');
     background-repeat: no-repeat;
     background-position: center; 
@@ -178,7 +185,7 @@ background-size: contain;
     display: flex;
     align-items: center;
     justify-self: end;
-    gap: 4px;
+    gap: 0.25rem;
     cursor:pointer;
     transition: var(--transition);
     grid-row-start:1;
@@ -190,10 +197,21 @@ background-size: contain;
 
 }
 
+.trash-btn2, .edit-btn2{
+        display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 0.25rem;
+    cursor:pointer;
+    transition: var(--transition);
+    grid-row-start:1;
+    grid-column-start:3;
+}
+
 .pic-name{
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
     grid-column-start: 2;
 }
 
@@ -225,15 +243,15 @@ line-height: 1.5;
 .threaded-card-wrapper{
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
 }
 
 .threaded__card{
       background-color: var(--white);
     border-radius: var(--radius10);
     box-shadow: var(--shadow);
-    padding: 24px;
-    gap: 24px;
+    padding: 1.5rem;
+    gap: 1.5rem;
 width:100%;
     display: grid;
     grid-template-columns: 5% auto 15%;
@@ -244,7 +262,7 @@ width:100%;
     display: grid;
     grid-template-columns: 5% auto 15%;
     grid-template-rows: 1fr auto auto;
-    margin-top:8px;
+    margin-top:0.5rem;
 }
 
 
@@ -256,7 +274,7 @@ width:100%;
 .action-btns{
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
     justify-content: end;
 }
 
@@ -276,8 +294,8 @@ width:100%;
 }
 
 .input__avatar{
-width:40px;
-height: 40px;
+width:2.5rem;
+height: 2.5rem;
 border-radius: 100%;
 background: url('./images/avatars/image-juliusomo.webp');
 background-repeat: no-repeat;
@@ -287,11 +305,11 @@ background-size: contain;
 
 .comment-field{
     font-family: var(--ff);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     border: 1px solid var(--grey-100);
-    padding-top: 10px;
-    padding-left: 16px;
-    padding-bottom: 40px;
+    padding-top: 0.625rem;
+    padding-left: 1rem;
+    padding-bottom: 2.5rem;
    width: 100%;
    cursor:pointer;
        color: var(--grey-500);
@@ -299,14 +317,14 @@ background-size: contain;
 
 .edit-textarea{
     font-family: var(--ff);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     border: 1px solid var(--grey-100);
-    padding: 10px 16px;
-    padding-bottom: 40px;
+    padding: 0.625rem 1rem;
+    padding-bottom: 2.5rem;
    width: 100%;
    cursor:pointer;
        color: var(--grey-500);
-       font-size: 16px;
+       font-size: 1rem;
        line-height: 1.5;
        resize: vertical;
 }
@@ -326,8 +344,8 @@ background-size: contain;
     color: var(--white);
     text-transform: uppercase;
     background:var(--purple-600);
-    padding: 12px 20px;
-    border-radius:8px;
+    padding: 0.75rem 1.25rem;
+    border-radius:0.5rem;
     cursor:pointer;
     transition: var(--transition);
 }
@@ -336,21 +354,29 @@ background-size: contain;
     opacity: .3;
 }
 
+.no-cancel{
+    background: var(--grey-500);
+}
+
+.yes-delete{
+    background: var(--pink-400);
+}
+
 .update-btn{
        border: none;
     font-family: var(--ff);
     color: var(--white);
     text-transform: uppercase;
     background:var(--purple-600);
-    padding: 12px 20px;
-    border-radius:8px;
+    padding: 0.75rem 1.25rem;
+    border-radius:0.5rem;
     cursor:pointer;
     transition: var(--transition);
    /* display: grid; */
     grid-row-start: 3;
     grid-column-start:2;
     grid-column-end: 4;
-    width:100px;
+    width:6.25rem;
     justify-self: right;
 }
 
@@ -358,18 +384,18 @@ background-size: contain;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
+    gap: 0.625rem;
     background: var(--white);
-    padding: 24px;
-    border-radius: 8px;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
     width: 100%;
 }
 
 
 
 .attribution{
-    font-size: 10px;
-    margin-top: 40px;
+    font-size: 0.625rem;
+    margin-top: 2.5rem;
     opacity: .8;
 }
 
@@ -381,9 +407,9 @@ background-size: contain;
    display: grid;
    grid-template-columns:40px auto 15%;
    align-items: start;
-    gap: 24px;
+    gap: 1.5rem;
     width: 100%;
-    margin-top: 16px;
+    margin-top: 1rem;
 }
 
 
@@ -398,7 +424,7 @@ background-size: contain;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 16px;
+    gap: 1rem;
 
 }
 
@@ -406,8 +432,8 @@ background-size: contain;
     background: var(--white);
     border-radius: var(--radius10);
     box-shadow: var(--shadow);
-    padding: 24px;
-    width: clamp(320px, 30vw,600px);
+    padding: 1.5rem;
+    width: clamp(20rem, 30vw,37.5rem);
     box-shadow: var(--shadow);
     z-index: 20;
 position: absolute;
@@ -418,14 +444,14 @@ left: 50%;
 
 .delete-title{
     color: var(--grey-800);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: var(--fw500);
 }
 
 .delete-msg{
     opacity: .8;
     line-height: 1.5;
-    margin-top: 16px;
+    margin-top: 1rem;
 }
 
 .cancel-btn{
@@ -441,8 +467,8 @@ left: 50%;
 .modal-btns{
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 20px;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
     width: 100%;
 
 }
@@ -479,14 +505,19 @@ left: 50%;
 
 .comment__card, .threaded__card{
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 1rem;
 }
 
 .comment__controller{
     height: auto;
-    width: 100px;
+    width: 6.25rem;
     flex-direction: row;
     grid-row-start: 3;
+}
+
+.comment-field{
+    grid-column-start:1;
+    grid-column-end:3;
 }
 
 .pic-name{
